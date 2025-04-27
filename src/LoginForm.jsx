@@ -1,29 +1,34 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:7000/users/login", formData);
-      console.log(res.data);
-      alert("Login successful!");
-    } catch (error) {
-      console.error(error);
-      alert("Login failed!");
-    }
+    const [formData, setFormData] = useState({
+        email: "",
+        password: "",
+    });
+    
+    const handleChange = (e) => {
+        setFormData((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
+    };
+    const navigate = useNavigate();
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await axios.post("http://localhost:7000/users/login", formData);
+            console.log(res.data);
+            alert("Login successful!");
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('isLoggedIn', 'true');
+            navigate("/dashboard"); 
+        } catch (error) {
+            console.error(error);
+            alert("Login failed!");
+        }
   };
 
   return (
