@@ -3,9 +3,10 @@ import { useState, useEffect } from 'react';
 import UserList from './UserList';
 import RegistrationForm from './RegistrationForm'; // import your registration form
 import LoginForm from './LoginForm';
-import Dashboard from './Dashboard'; // import your dashboard
+import Dashboard from './TestDashboard'; // import your dashboard
 import { getUsers } from './api';
 import './App.css';  
+import TestDashboard from './TestDashboard';
 
 function UserListingPage() {
   const [users, setUsers] = useState([]);
@@ -47,7 +48,7 @@ function App() {
         <Route path="/home" element={<UserListingPage />} />
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<TestDashboard />} />
       </Routes>
     </Router>
   );
