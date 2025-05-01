@@ -73,9 +73,13 @@ function TestDashboard() {
   const fetchTasks = async () => {
     try {
       const res = await getTasks();
-      setTasks(res.data.data);
+      setTasks(res.data.data); // or res.data depending on your API shape
     } catch (err) {
-      console.error("Failed to fetch tasks", err);
+      console.error("Fetch failed", err);
+      if (err.response && (err.response.status === 401 || err.response.status === 403)) {
+        alert("Unauthorized or expired session. Please log in again.");
+        handleLogout();
+      }
     }
   };
 
@@ -88,7 +92,10 @@ function TestDashboard() {
       await createTask(task);
       fetchTasks();
     } catch (err) {
-      console.error("Task creation failed", err);
+      console.error("Create failed", err);
+      if (err.response?.status === 403) {
+        alert("You are not authorized to create tasks.");
+      }
     }
   };
 
@@ -98,7 +105,10 @@ function TestDashboard() {
       fetchTasks();
       setEditingTask(null);
     } catch (err) {
-      console.error("Task update failed", err);
+      console.error("Update failed", err);
+      if (err.response?.status === 403) {
+        alert("You are not authorized to update tasks.");
+      }
     }
   };
 
@@ -107,7 +117,10 @@ function TestDashboard() {
       await deleteTask(id);
       fetchTasks();
     } catch (err) {
-      console.error("Task deletion failed", err);
+      console.error("Delete failed", err);
+      if (err.response?.status === 403) {
+        alert("You are not authorized to delete tasks.");
+      }
     }
   };
 
@@ -119,13 +132,11 @@ function TestDashboard() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
-      localStorage.removeItem('token');
-      localStorage.removeItem('isLoggedIn');
-
+      localStorage.clear();
       navigate("/login");
     } catch (error) {
       console.error("Logout failed", error);
@@ -138,16 +149,7 @@ function TestDashboard() {
       <h1 className="text-2xl mb-4 font-bold">Task Manager</h1>
       <button
         onClick={handleLogout}
-        style={{
-          marginTop: "20px",
-          padding: "10px 20px",
-          backgroundColor: "#fff",
-          color: "#000",
-          border: "none",
-          borderRadius: "5px",
-          fontWeight: "bold",
-          cursor: "pointer"
-        }}
+        className="mb-4 bg-black text-white px-4 py-2 rounded"
       >
         Logout
       </button>

@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import UserList from './UserList';
 import RegistrationForm from './RegistrationForm'; // import your registration form
 import LoginForm from './LoginForm';
-import Dashboard from './TestDashboard'; // import your dashboard
 import { getUsers } from './api';
 import './App.css';  
 import TestDashboard from './TestDashboard';
@@ -48,7 +47,7 @@ function App() {
         <Route path="/home" element={<UserListingPage />} />
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/dashboard" element={<TestDashboard />} />
+        <Route path="/testdashboard" element={<TestDashboard />} />
       </Routes>
     </Router>
   );

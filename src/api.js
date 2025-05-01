@@ -1,13 +1,24 @@
 import axios from 'axios';
 
 const API = 'http://localhost:7000';
-const TASK_API = 'http://localhost:8080/tasks';
+const TASK_API = 'http://localhost:8000/tasks';
 
-export const getUsers = () => axios.get(`${API}/users`);
+// Get token from localStorage
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};
 
+// Auth endpoints
+export const getUsers = () => axios.get(`${API}/users`, getAuthHeaders());
 export const registerUser = (userData) => axios.post(`${API}/register`, userData);
 
-export const getTasks = () => axios.get(`${TASK_API}/getall`);
-export const createTask = (task) => axios.post(`${TASK_API}/create`, task);
-export const updateTask = (id, task) => axios.put(`${TASK_API}/update/${id}`, task);
-export const deleteTask = (id) => axios.delete(`${TASK_API}/delete/${id}`);
+// Task endpoints
+export const getTasks = () => axios.get(`${TASK_API}/getall`, getAuthHeaders());
+export const createTask = (task) => axios.post(`${TASK_API}/create`, task, getAuthHeaders());
+export const updateTask = (id, task) => axios.put(`${TASK_API}/update/${id}`, task, getAuthHeaders());
+export const deleteTask = (id) => axios.delete(`${TASK_API}/delete/${id}`, getAuthHeaders());

@@ -6,6 +6,7 @@ function RegistrationForm() {
     username: "",
     email: "",
     password: "",
+    role: "", // Added role field
   });
 
   const handleChange = (e) => {
@@ -40,7 +41,7 @@ function RegistrationForm() {
         onSubmit={handleSubmit}
         style={{ 
           backgroundColor: "#111", 
-          padding: "12rem", 
+          padding: "2rem",  // Reduced padding for better alignment
           borderRadius: "10px", 
           display: "flex", 
           flexDirection: "column", 
@@ -98,6 +99,26 @@ function RegistrationForm() {
           }}
         />
 
+        {/* Role Input Field */}
+        <select
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+          required
+          style={{
+            padding: "0.75rem",
+            border: "1px solid #333",
+            borderRadius: "5px",
+            backgroundColor: "#222",
+            color: "#fff",
+          }}
+        >
+          <option value="">Select Role</option>
+          <option value="user">user</option>
+          <option value="admin">admin</option>
+          {/* Add other roles here if needed */}
+        </select>
+
         <button
           type="submit"
           style={{
@@ -113,9 +134,6 @@ function RegistrationForm() {
           Submit
         </button>
       </form>
-      {/* <Link to="/login" style={{ color: '#00f', textDecoration: 'underline' }}>
-        If registered, Login
-      </Link> */}
     </div>
   );
 }
